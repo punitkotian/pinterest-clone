@@ -1,0 +1,73 @@
+<div class="profile-details">
+    <% if (isCurrentUser === true) { %>
+        <form
+        id="uploadform"
+        hidden
+        action="/edit-profile-pic"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input type="file" name="profileImage" />
+      </form>
+    <% } %>
+
+
+  <div class="avatar">
+    <% if (isCurrentUser === true) { %>
+    <button
+      type="button"
+      class="btn btn-transparent-bg rounded-circle"
+      id="upload-btn"
+    >
+      <span class="material-symbols-outlined"> edit </span>
+    </button>
+    <% } %>
+    <img
+      data-lazy="/uploads/<%= (isCurrentUser === true) ? user?.avatar : otherUser?.avatar %>"
+      alt=""
+      class="rounded-circle"
+    />
+  </div>
+  <h2 class="profile-fullName display-small" data-userId="<%= user?._id %>">
+    <%=  (isCurrentUser === true) ? user?.fullName : otherUser?.fullName %>
+  </h2>
+  <h3 class="profile-username title-medium">@<%=  (isCurrentUser === true) ? user?.username : otherUser?.username %></h3>
+  <div class="btn-container">
+    <div class="row-1">
+        <% if (isCurrentUser === true) { %>
+
+      <a
+        href="/edit-profile"
+        class="btn btn-dark-gray-bg rounded-full body-medium"
+        >Edit profile</a
+      >
+      <% } %>
+    </div>
+    <div class="row-2">
+      <a
+        href="/<%= (isCurrentUser === true) ? user?.username : otherUser?.username %>/profile_pins"
+        class="btn btn-pins btn-dark-gray-bg rounded-full body-medium active"
+      >
+        Pins
+      </a>
+      <a
+        href="/<%=  (isCurrentUser === true) ? user?.username : otherUser?.username %>/profile_boards"
+        class="btn btn-boards btn-dark-gray-bg rounded-full body-medium"
+      >
+        Boards
+      </a>
+    </div>
+  </div>
+</div>
+<% if (isCurrentUser === true) { %>
+
+<script>
+  document.querySelector("#upload-btn").addEventListener("click", () => {
+    document.querySelector("#uploadform input").click();
+  });
+
+  document.querySelector("#uploadform input").addEventListener("change", () => {
+    document.querySelector("#uploadform").submit();
+  });
+</script>
+<% } %>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+    <script src="/js/imageLoad.js" defer></script>
+  </head>
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+
+    <div class="main">
+      <div class="centered-container">
+        <div class="form-container">
+          <form action="/edit-profile" method="post">
+            <div class="edit-profile-container">
+              <h2 class="edit-profile-title heading-medium">Edit Profile</h2>
+              <div class="fill-profile-details">
+                <div class="avatar">
+                  <img
+                    class="rounded-circle"
+                    data-lazy="/uploads/<%= data?.user?.avatar %>"
+                    alt=""
+                  />
+                </div>
+                <% if(data?.message) { %>
+                <p class="msg label-large"><%= data?.message %></p>
+                <% } %>
+                <!-- -->
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Username"
+                  class="rounded-sm body-medium"
+                  value="<%= data?.user?.username %>"
+                  required
+                />
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Fullname"
+                  value="<%= data?.user?.fullName %>"
+                  class="rounded-sm body-medium"
+                  required
+                />
+                <div class="btn-container">
+                  <button
+                    type="submit"
+                    class="btn btn-danger rounded-sm body-medium save-btn"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="reset"
+                    class="btn btn-danger rounded-sm body-medium delete-btn"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // const editBtn = document.querySelector(".edit-btn");
+      // const inputFile = document.getElementById("profileImage");
+      // const profilePic = document.querySelector(".profile-pic");
+      // editBtn.addEventListener("click", () => {
+      //   inputFile.click();
+      // });
+
+      // inputFile.addEventListener("change", () => {
+      //   let imgLink = URL.createObjectURL(inputFile.files[0]);
+
+      //   profilePic.src = imgLink;
+      // });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <%- include('../partials/head'); %>
+    <script src="/js/board-search.js" defer></script>
+    <script src="/js/edit-created-pin.js" defer></script>
+  </head>
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+
+    <div class="main">
+      <div class="centered-container">
+        <div class="form-container">
+          <form action="">
+            <div class="edit-pin-container" data-id="<%= data?._id %>">
+              <div class="top">
+                <h2 class="edit-pin-title heading-medium">Edit Pin</h2>
+                <button type="button" class="btn cancel-btn">
+                  <span class="material-symbols-outlined"> close </span>
+                </button>
+              </div>
+
+              <div class="fill-pin-details">
+                <input
+                  type="text"
+                  class="title rounded-sm body-medium"
+                  value="<%= data?.pin?.title %>"
+                  placeholder="Title"
+                />
+                <textarea
+                  name=""
+                  id=""
+                  class="description rounded-sm body-medium"
+                ><%= data?.pin?.description %></textarea>
+                <div class="board-search-container">
+                  <div class="btn select-btn">
+                    <span class="body-large">Select Board</span>
+                    <span class="material-symbols-outlined arrow-btn">
+                      expand_more
+                    </span>
+                  </div>
+                  <div class="content">
+                    <div class="search">
+                      <span class="material-symbols-outlined search-btn">
+                        search
+                      </span>
+                      <input
+                        type="text"
+                        placeholder="search"
+                        class="search-input body-medium"
+                      />
+                    </div>
+
+                    <ul class="options"></ul>
+                  </div>
+                </div>
+                <div class="btn-container">
+                  <button
+                    class="btn btn-danger rounded-sm body-medium save-btn"
+                  >
+                    Save
+                  </button>
+                  <button
+                    class="btn btn-danger rounded-sm body-medium delete-btn"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

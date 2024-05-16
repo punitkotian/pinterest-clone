@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+
+    <div class="main">
+      <div class="centered-container">
+        <div class="error-info-container">
+          <h1 class="heading-large"><%= data?.message %></h1>
+          <h2 class="heading-medium"><%= data?.error?.status %></h2>
+          <p class="body-large"><%= data?.error?.stack %></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

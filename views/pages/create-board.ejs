@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+    <div class="main">
+      <div class="centered-container">
+        <div class="form-container">
+          <form action="/create-board" method="post">
+            <div class="create-board-container">
+              <div>
+                <h2
+                  class="create-board-title heading-medium"
+                >
+                  Create Board
+                </h2>
+              </div>
+              <% if (typeof data !== 'undefined' && data?.message !==
+              'undefined') { %>
+              <p class="msg label-large" data-success="<%= data?.success %>">
+                <%= data.message %>
+              </p>
+              <% } %>
+              <div class="fill-board-details">
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  class="rounded-sm body-medium"
+                />
+                <textarea
+                  name="description"
+                  class="description rounded-sm body-medium"
+                ></textarea>
+                <button
+                  type="submit"
+                  class="btn btn-danger rounded-sm save-btn body-medium"
+                >
+                  Create
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const msgElement = document.querySelector(".msg");
+
+      if (msgElement && msgElement.getAttribute("data-success") === "true") {
+        setTimeout(() => {
+          msgElement.classList.add("hidden");
+          setTimeout(() => {
+            msgElement.remove();
+          }, 500);
+        }, 1500);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+
+<div class="pin-card">
+    <span class="uesr_id" data-userId="<%= data?.user_id %>" hidden></span>
+    <div class="pin-image rounded-md">
+      <img data-lazy="/uploads/<%= data?.pin?.image %>" alt="pin-image" />
+      <div class="overlay">
+        <div class="btn-container">
+          <div class="row-1">
+            <a
+              href="/save-pin/<%= data?.pin?._id %>"
+              class="btn btn-danger rounded-full save-btn body-medium"
+            >
+              Save
+            </a>
+          </div>
+          <div class="row-2">
+            <a
+              href="/pin/<%= data?.pin?._id %>"
+              class="btn btn-transparent-bg rounded-full open-btn text-wrap body-medium"
+              ><span class="material-symbols-outlined"> open_in_new </span>view</a
+            >
+            <a
+              href="/uploads/<%= data?.pin?.image %>"
+              class="btn btn-transparent-bg rounded-circle download-btn"
+            >
+              <span class="material-symbols-outlined"> download </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pin-info">
+      <div class="title text-wrap title-medium">
+        <%=  data?.pin?.title !== undefined ? data?.pin.title : '' %>
+      </div>
+
+      <% if (data?.pin?.creator?.username !== undefined && data?.pin?.creator?.avatar !== undefined) { %>
+
+      <div class="pin-creator">
+        <a href="/<%= data?.pin?.creator?.username %>/profile_pins" class="body-small">
+          <div class="avatar">
+            <img data-lazy="/uploads/<%= data?.pin?.creator?.avatar %>" alt="avatar" class="rounded-circle" />
+          </div>
+          <div class="text-wrap ">
+            <%=  data?.pin?.creator?.username || '' %>
+          </div>
+          </a>
+      </div>
+      <% } %>
+
+    </div>
+  </div>
+  
+  

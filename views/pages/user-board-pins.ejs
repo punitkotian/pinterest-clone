@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+    <script src="/js/imageLoad.js" defer></script>
+    <% if (data?.isCurrentUser !== true) { %>
+    <script src="/js/download.js" defer></script>
+    <% } %>
+  </head>
+
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+    <div class="main">
+      <div class="pins">
+        <div
+          class="board_creator"
+          data-username="<%= data?.user?.username%>"
+          data-userId="<%= data?.user?._id %>"
+        >
+          <div class="avatar">
+            <img
+              class="rounded-circle"
+              data-lazy="/uploads/<%= data?.otherUser?.avatar || data?.user?.avatar %>"
+              alt=""
+            />
+          </div>
+          <% if (data?.isCurrentUser === true) { %>
+          <button
+            class="btn btn-dark-gray-bg rounded-full body-medium edit-board-btn edit-btn"
+            data-id="<%= data?.board_id %>"
+          >
+            Edit board
+          </button>
+
+          <% } %>
+          <h2 class="heading-medium" style="text-align: center">
+            <%= data?.heading %>
+          </h2>
+        </div>
+        <div class="divider"></div>
+        <% if (data?.userpins?.length > 0 ) { %>
+        <div class="pin-card-container">
+          <% if (data?.isCurrentUser === true) { %> <% data.userpins.forEach(
+          function(userpin) { %> <%- include('./editOptionPin', { data: { pin:
+          userpin?.pin, userpin_id: userpin?._id, pin_type: userpin?.pin_type,
+          edit: true } }); %> <% }) %> <% } else { %> <% data.userpins.forEach(
+          function(userpin) { %> <%- include('./downloadOptionPin', { data: {
+          pin: userpin?.pin, userpin_id: userpin?._id, pin_type:
+          userpin?.pin_type, edit: true } }); %> <% }) %> <% } %>
+        </div>
+        <% } else { %>
+        <p class="msg label-large" style="margin-top: 20px">No Pins found</p>
+        <% } %>
+      </div>
+    </div>
+    <div class="popup-container"><%- include('./edit-board'); %></div>
+
+    <script>
+      const popupContainer = document.querySelector(".popup-container");
+      const title = document.querySelector(".popup-container input.title");
+      let dataId;
+      const description = document.querySelector(
+        ".popup-container textarea.description"
+      );
+      const cancelBtn = document.querySelector(".cancel-board-btn");
+      const deleteBtn = document.querySelector(".delete-board-btn");
+      const saveBtn = document.querySelector(".save-board-btn");
+      const editBtns = document.querySelectorAll(".edit-board-btn");
+      const board_creator = document.querySelector(".board_creator");
+      let dataUsername = board_creator.getAttribute("data-username");
+
+      cancelBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        toggleEditBoard();
+      });
+      deleteBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const user_id = board_creator.getAttribute("data-userId");
+        const response = await fetch(`/delete-board/${dataId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        dataId = "";
+        window.location.replace(`/${dataUsername}/profile_boards`);
+      });
+      saveBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const user_id = board_creator.getAttribute("data-userId");
+        const response = await fetch(`/update-board/${dataId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            title: title.value,
+            description: description.value,
+          }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          window.location.replace(`/${dataUsername}/${data.data.title}`);
+        } else {
+          toggleEditBoard();
+          window.location.href = `/${dataUsername}/profile_boards`;
+        }
+      });
+
+      function toggleEditBoard() {
+        if (popupContainer.classList.contains("show")) {
+          title.value = "";
+          description.value = "";
+        }
+        popupContainer.classList.toggle("show");
+      }
+
+      editBtns.forEach((editBtn) => {
+        editBtn.addEventListener("click", async () => {
+          event.preventDefault();
+          dataId = editBtn.getAttribute("data-id");
+          const response = await fetch(`/board/${dataId}`, {
+            method: "GET",
+          });
+          if (response.ok) {
+            const boardData = await response.json();
+            title.value = boardData.title;
+            description.value = boardData.description;
+          }
+          toggleEditBoard();
+        });
+      });
+
+      popupContainer.addEventListener("click", function (event) {
+        if (this === event.target) {
+          toggleEditBoard();
+        }
+      });
+
+      const boardPinContainers = document.querySelectorAll(
+        ".box-type-2 .pin-container"
+      );
+    </script>
+  </body>
+</html>

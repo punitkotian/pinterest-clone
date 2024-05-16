@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+    <script src="/js/profile-boards.js" defer></script>
+    <script src="/js/imageLoad.js" defer></script>
+
+  </head>
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+    <div class="main">
+      <div class="profile-container">
+        <%- include('./profiledetails', { user: data?.user, isCurrentUser: data?.isCurrentUser, otherUser: data?.otherUser } ); %>
+      </div>
+
+      <div class="box-container">
+        <!-- Content for "Boards" -->
+        <div class="board-content" id="boards-content">
+          
+          <% if (typeof data !== 'undefined' && data?.boards?.length > 0) { %>
+            <% data.boards.forEach(function (board) { %>
+          <a href="/<%= (data?.isCurrentUser === true) ? data?.user?.username : data?.otherUser.username %>/<%= board?.title %>">
+            <%- include('./pin-box-type-2', { data: {  ...board ,  isCurrentUser: data?.isCurrentUser } } ); %>
+          </a>
+
+          <% }) %> <% } else { %>
+          <p class="msg label-large">No Boards yet created</p>
+          <% }%>
+        </div>
+      </div>
+    </div>
+    <div class="popup-container"><%- include('./edit-board'); %></div>
+
+    <script>
+      document.querySelector("#upload-btn").addEventListener("click", () => {
+        document.querySelector("#uploadform input").click();
+      });
+
+      document
+        .querySelector("#uploadform input")
+        .addEventListener("change", () => {
+          document.querySelector("#uploadform").submit();
+        });
+
+      const popupContainer = document.querySelector(".popup-container");
+      const title = document.querySelector(".popup-container input.title");
+      let dataId;
+      const description = document.querySelector(
+        ".popup-container textarea.description"
+      );
+      const cancelBtn = document.querySelector(".cancel-btn");
+      const deleteBtn = document.querySelector(".delete-btn");
+      const saveBtn = document.querySelector(".save-btn");
+      const profileFullName = document.querySelector(".profile-fullName");
+
+      cancelBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        toggleEditBoard();
+      });
+      deleteBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const user_id = profileFullName.getAttribute("data-userId");
+        const response = await fetch(`/delete-board/${dataId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        dataId = "";
+        window.location.reload();
+      });
+      saveBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const user_id = profileFullName.getAttribute("data-userId");
+        const response = await fetch(`/update-board/${dataId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            title: title.value,
+            description: description.value,
+          }),
+        });
+        window.location.reload();
+      });
+
+      function toggleEditBoard() {
+        if (popupContainer.classList.contains("show")) {
+          title.value = "";
+          description.value = "";
+        }
+        popupContainer.classList.toggle("show");
+      }
+
+      const editBtns = document.querySelectorAll(".edit-btn");
+      editBtns.forEach((editBtn) => {
+        editBtn.addEventListener("click", async () => {
+          event.preventDefault();
+          dataId = editBtn.getAttribute("data-id");
+          const response = await fetch(`/board/${dataId}`, {
+            method: "GET",
+          });
+          if (response.ok) {
+            const boardData = await response.json();
+            title.value = boardData.title;
+            description.value = boardData.description;
+          }
+          toggleEditBoard();
+        });
+      });
+
+      popupContainer.addEventListener("click", function (event) {
+        if (this === event.target) {
+          toggleEditBoard();
+        }
+      });
+
+      const boardPinContainers = document.querySelectorAll(
+        ".box-type-2 .pin-container"
+      );
+    </script>
+  </body>
+</html>

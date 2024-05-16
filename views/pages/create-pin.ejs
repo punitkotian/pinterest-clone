@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+
+    <div class="main">
+      <div class="centered-container">
+        
+        <div class="create-pin-form-container">
+          <form action="/create-pin" method="post" enctype="multipart/form-data">
+            <h2 class="create-pin-title heading-medium">Create Pin</h2>
+            <% if (typeof message !== 'undefined' ) { %>
+            <p class="msg label-medium"><%= message %></p>
+            <% } %>
+            <div class="create-pin-container">
+              <div class="image-fetcher col">
+                <label for="input-image" class="image-view rounded-md">
+                  <img src="" class="upload-icon" alt="" />
+                  <span class="material-symbols-outlined"> upload </span>
+                  <p class="body-medium">Choose a file</p>
+                </label>
+                <input
+                  type="file"
+                  id="input-image"
+                  name="pinImage"
+                  accept="image/*"
+                  required
+                />
+              </div>
+              <div class="fill-pin-details col">
+                <input
+                  type="text"
+                  class="title rounded-sm body-medium"
+                  name="title"
+                  placeholder="Title"
+                />
+                <textarea
+                  name="description"
+                  class="description rounded-sm body-medium"
+                ></textarea>
+                <button class="btn btn-danger rounded-sm body-medium">
+                  Publish
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const imageUpload = document.getElementById("input-image");
+      const imageView = document.querySelector(".image-view");
+
+      imageUpload.addEventListener("change", (e) => {
+        showImage();
+      });
+
+      function showImage() {
+        let imgLink = URL.createObjectURL(imageUpload.files[0]);
+        imageView.style.backgroundImage = `url(${imgLink})`;
+        imageView.style.border = 0;
+        imageView.textContent = "";
+      }
+    </script>
+  </body>
+</html>

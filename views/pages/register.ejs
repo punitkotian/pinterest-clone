@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <div class="main">
+      <div class="centered-container">
+        <!-- <h3>hellow</h3> -->
+        <div class="form-container">
+          <form id="registrationForm" action="/register" method="post">
+            <div class="register-container">
+              <h1 class="heading-large">Create New Account</h1>
+              <% if (typeof message !== 'undefined' ) { %>
+                <p class="msg label-medium"><%= message %></p>
+              <% } %>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Username"
+                class="rounded-sm body-medium"
+                required
+              />
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Full Name"
+                class="rounded-sm body-medium"
+                required
+              />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                class="rounded-sm body-medium"
+                required
+              />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                class="rounded-sm body-medium"
+                required
+              />
+              <button class="btn btn-danger rounded-sm body-medium create-btn">
+                Create New Account
+              </button>
+              <a href="/login" id="login-btn" class="body-large"
+                >Login Existing Account</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- <script src="/js/register.js">
+       
+    </script> -->
+  </body>
+</html>

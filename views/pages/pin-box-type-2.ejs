@@ -1,0 +1,28 @@
+
+<div class="box box-type-2">
+  <div class="pin-container rounded-md">
+    <% for (let i = 0; i < 3; i++) { %>
+      <div class="pin pin-<%= i+1 %>">
+        <% if ((data?.userpins?.[i] !== undefined)  || (data?.userpins?.[i]?.pin_type === "saved")) { %>
+          <img data-lazy="/uploads/<%= data.userpins[i]?.pin?.image || "error.png" %>" alt="" />
+          <% } %>
+      </div>
+    <% } %>
+
+    <% if (data?.isCurrentUser === true) { %>
+    <button class="btn btn-transparent-bg rounded-circle edit-btn" data-id="<%= data?._id %>">
+      <span class="material-symbols-outlined"> edit </span>
+    </button>
+    <% } %>
+  </div>
+  <div class="box-info">
+    <h3 class="box-name title-medium">
+      <%= typeof data?.title !== 'undefined' ? data.title : '' %>
+    </h3>
+    <span class="total-pin label-medium"
+      ><%= data?.totalPins %>
+      pins</span
+    >
+  </div>
+</div>
+

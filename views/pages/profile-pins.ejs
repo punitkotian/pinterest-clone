@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+    <script src="/js/profile-pins.js" defer></script>
+    <script src="/js/imageLoad.js" defer></script>
+  </head>
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+    <div class="main">
+      <div class="profile-container">
+        <%- include('./profiledetails', { user: data?.user, isCurrentUser: data?.isCurrentUser, otherUser: data?.otherUser } ); %>
+      </div>
+
+      <div class="box-container">
+        <!-- Content for "Pin" -->
+        <div class="pin-content" id="pins-content">
+          <a href="/<%=  (data?.isCurrentUser === true) ? data?.user?.username : data?.otherUser?.username %>/all-pins">
+            <%- include('./pin-box-type-1', { boxName: 'All pins', data:
+            data?.all_pins }); %>
+          </a>
+          <a href="/<%=  (data?.isCurrentUser === true) ? data?.user?.username : data?.otherUser?.username %>/created-pins">
+            <%- include('./pin-box-type-1', { boxName: 'Created pins', data:
+            data?.created_pins }); %>
+          </a>
+          <a href="/<%=  (data?.isCurrentUser === true) ? data?.user?.username : data?.otherUser?.username %>/saved-pins">
+            <%- include('./pin-box-type-1', { boxName: 'Saved pins', data:
+            data?.saved_pins }); %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

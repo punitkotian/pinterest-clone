@@ -1,0 +1,16 @@
+<% if (typeof comment !== 'undefined') { %>
+<div class="comment">
+    <div class="avatar">
+      <img data-lazy="/uploads/<%= comment?.creator?.avatar %>" alt="" class="rounded-circle">
+    </div>
+    <div class="comment-content">
+      <div class="comment-info">
+        <h5 class="title-small">@<%= comment?.creator?.username %></h5>
+      </div>
+      <div class="comment-text">
+        <p class="body-small"><%= comment?.comment_text %></p>
+      </div>
+      
+    </div>
+</div>
+<% } %>

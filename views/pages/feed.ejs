@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+    <script src="/js/imageLoad.js" defer></script>
+
+    <script src="/js/download.js" defer></script>
+  </head>
+  <%- include('../partials/header', { user: data.user }); %>
+
+  <body>
+    <div class="main">
+      <div class="pins">
+        <% if (typeof data !== 'undefined' && data?.pins?.length > 0 ) { %>
+        <div class="pin-card-container">
+          <% data.pins?.forEach( function (pin) { %> <%- include('./downloadOptionPin', {
+          data: { pin, edit: false } }); %> <% }) %>
+        </div>
+        <% } else { %>
+        <p class="msg label-large" style="margin-top: 20px">No Pins found</p>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>

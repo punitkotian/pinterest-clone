@@ -1,0 +1,18 @@
+<div class="box box-type-1">
+  <div class="pin-container">
+    <% for (let i = 0; i < 6; i++) { %>
+    <div class="pin rounded-md">
+      <% if ((data?.userpins?.[i] !== undefined)  || (data?.userpins?.[i]?.pin_type === "saved")) { %>
+      <img data-lazy="/uploads/<%= data.userpins[i]?.pin?.image || "error.png" %>" alt="" />
+      <% } %>
+    </div>
+    <% } %>
+  </div>
+  <div class="box-info">
+    <h3 class="box-name title-medium"><%= boxName || '' %></h3>
+    <span class="total-pin label-medium"
+      ><%= 
+      data?.totalPins || '0' %> pins</span
+    >
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<nav class="nav">
+  <div class="nav-data">
+    <a href="#" class="nav-logo logo-size">Pinpalette</a>
+
+    <div class="nav-toggle">
+      <span class="material-symbols-outlined nav-burger active"> menu </span>
+      <span class="material-symbols-outlined nav-close"> close </span>
+    </div>
+  </div>
+
+  <div class="nav-menu">
+    <ul class="nav-list title-medium">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li class="dropdown-item">
+        <div class="nav-link">
+          Create
+          <span class="material-symbols-outlined dropdown-arrow">
+            expand_more
+          </span>
+        </div>
+
+        <ul class="dropdown-menu">
+          <li>
+            <a href="/create-pin" class="dropdown-link">Pin</a>
+          </li>
+          <li>
+            <a href="/create-board" class="dropdown-link">Board</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="/<%= user.username %>/profile_pins" class="nav-link"
+          >Profile</a
+        >
+      </li>
+      <li><a href="/logout" class="nav-link">Logout</a></li>
+    </ul>
+  </div>
+</nav>

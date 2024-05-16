@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <div class="main">
+      <div class="centered-container">
+        <div class="form-container">
+          <form action="/login" method="post">
+            <div class="login-container">
+              <h1 class="heading-large">Welcome to PinPalette</h1>
+              <% if (typeof message !== 'undefined' ) { %>
+              <p class="msg label-medium"><%= message %></p>
+              <% } %>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Username"
+                class="rounded-sm body-medium"
+                required
+              />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                class="rounded-sm body-medium"
+                required
+              />
+              <!-- <a href="#" class="fg-pass">Forgot password?</a> -->
+              <button class="btn btn-danger rounded-sm body-medium login-btn">
+                Login
+              </button>
+              <a href="/register" class="body-large">Don't have an account?</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

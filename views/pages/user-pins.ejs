@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+    <script src="/js/imageLoad.js" defer></script>
+    <% if (data?.isCurrentUser !== true) { %>
+      <script src="/js/download.js" defer></script>
+      <% } %>
+  </head>
+
+  <body>
+    <%- include('../partials/header', { user: data.user }); %>
+    <div class="main">
+      <div class="pins">
+        <h2 class="heading-medium" style="text-align: center">
+          <%= data?.heading %>
+        </h2>
+        <div class="divider"></div>
+        <% if (data?.userpins?.length > 0 ) { %>
+        <div class="pin-card-container">
+          <% if (data?.isCurrentUser === true) { %>
+          <% data.userpins.forEach( function(userpin) { %> <%- include('./editOptionPin',
+          { data: { pin: userpin?.pin, userpin_id: userpin?._id, pin_type:
+          userpin?.pin_type, edit: true } }); %> <% }) %>
+          <% } else { %>
+            <% data.userpins.forEach( function(userpin) { %> <%- include('./downloadOptionPin',
+            { data: { pin: userpin?.pin, userpin_id: userpin?._id, pin_type:
+            userpin?.pin_type, edit: true } }); %> <% }) %>
+            <% } %>
+        </div>
+        <% } else { %>
+        <p class="msg label-large" style="margin-top: 20px">No Pins found</p>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>
